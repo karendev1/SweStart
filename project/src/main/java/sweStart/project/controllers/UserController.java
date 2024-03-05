@@ -43,32 +43,12 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<?> save(@RequestBody @Valid IUserDTO userDto, BindingResult bindingResult) {
-        if(!userService.isValidEmail(userDto.getEmail())) {
-            return ResponseEntity.badRequest().body("email is already registered");
-        }
-        if(!userService.isValidNickName(userDto.getNickName())){
-            return ResponseEntity.badRequest().body("nickName is already registered");
-        }
-
-        if (bindingResult.hasErrors()) {
-            List<ValidationErrorResponse> errors = bindingResult.getFieldErrors().stream()
-                    .map(error -> new ValidationErrorResponse(
-                            error.getField(),
-                            error.getDefaultMessage()
-                    ))
-                    .collect(Collectors.toList());
-
-            return ResponseEntity.badRequest().body(errors);
-        }
-        userRepository.save(new User(userDto));
-
-        return ResponseEntity.status(201).body("User saved successfully");
-
+        return userService.saveUser(userDto, bindingResult);
     }
 
-    @DeleteMapping("/id")
-    public void deleteById(@PathVariable Long id){
-        userRepository.deleteById(id);
+    @DeleteMapping("/{nickname}")
+    public ResponseEntity<?> deleteByNickName(@PathVariable String nickname){
+        return userService.deleteUserByNickName(nickname);
     }
 
 }

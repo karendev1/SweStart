@@ -8,4 +8,8 @@ public interface UserRepository extends MongoRepository<User, Long> {
     boolean existsByEmail(String email);
 
     boolean existsByNickName(String nickName);
+
+    User findByNickName(String nickName);
+
+
 }
