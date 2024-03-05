@@ -6,7 +6,6 @@ import org.bson.types.ObjectId;
 import sweStart.project.domain.dtos.IUserDTO;
 
 @NoArgsConstructor
-@AllArgsConstructor
 public class User {
     private ObjectId id;
     private String name;
