@@ -16,6 +16,7 @@ import sweStart.project.domain.entities.User;
 import sweStart.project.repositories.UserRepository;
 import sweStart.project.services.UserService;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,7 +62,7 @@ public class UserController {
         }
         userRepository.save(new User(userDto));
 
-        return ResponseEntity.ok("User saved Successfully");
+        return ResponseEntity.status(201).body("User saved successfully");
 
     }
 
