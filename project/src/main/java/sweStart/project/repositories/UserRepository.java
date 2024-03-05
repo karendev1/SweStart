@@ -1,6 +1,11 @@
 package sweStart.project.repositories;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import sweStart.project.domain.entities.User;
 
-public interface UserRepository extends MongoRepository<User, Long> {}
+public interface UserRepository extends MongoRepository<User, Long> {
+    boolean existsByEmail(String userEmail);
+
+    boolean existsByNickName(String userNickName);
+}

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
 public class IUserDTO {
@@ -14,8 +15,10 @@ public class IUserDTO {
     private String name;
     @Size(min = 3, max = 20, message = "The nickName cannot be less than 3 characters and more than 20 characters")
     @NotBlank
+    @Field("userNickName")
     private String nickName;
     @NotBlank(message = "The email cannot be empty")
+    @Field("userEmail")
     @Email(message = "Email doesn't meet the requirements")
     private String email;
     @Size(min = 8, max = 8, message = "The password must be 8 characters long")

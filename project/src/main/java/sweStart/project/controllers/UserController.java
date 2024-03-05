@@ -14,6 +14,7 @@ import sweStart.project.domain.ValidationErrorResponse;
 import sweStart.project.domain.dtos.IUserDTO;
 import sweStart.project.domain.entities.User;
 import sweStart.project.repositories.UserRepository;
+import sweStart.project.services.UserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +25,9 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping()
     public Iterable<User> findAll(){
@@ -38,6 +42,13 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<?> save(@RequestBody @Valid IUserDTO userDto, BindingResult bindingResult) {
+        if(!userService.isValidEmail(userDto.getEmail())) {
+            return ResponseEntity.badRequest().body("email is already registered");
+        }
+        if(!userService.isValidNickName(userDto.getNickName())){
+            return ResponseEntity.badRequest().body("nickName is already registered");
+        }
+
         if (bindingResult.hasErrors()) {
             List<ValidationErrorResponse> errors = bindingResult.getFieldErrors().stream()
                     .map(error -> new ValidationErrorResponse(
@@ -51,6 +62,7 @@ public class UserController {
         userRepository.save(new User(userDto));
 
         return ResponseEntity.ok("User saved Successfully");
+
     }
 
     @DeleteMapping("/id")
