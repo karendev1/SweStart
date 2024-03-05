@@ -10,10 +10,10 @@ import sweStart.project.repositories.UserRepository;
     @Autowired
     private UserRepository userRepository;
     public boolean isValidEmail(String email) {
-        return userRepository.existsByEmail(email);
+        return !userRepository.existsByEmail(email);
     }
 
     public boolean isValidNickName(String nickName) {
-        return userRepository.existsByNickName(nickName);
+        return !userRepository.existsByNickName(nickName);
     }
 }
