@@ -5,9 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
+@Setter
 public class IUserDTO {
     @Size(min=3, max = 150, message = "The name cannot be less than 3 characters and more than 150 characters")
     @NotBlank(message = "The name cannot be empty")

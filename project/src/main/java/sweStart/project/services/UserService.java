@@ -3,6 +3,7 @@ package sweStart.project.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import sweStart.project.domain.ValidationErrorResponse;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
     @Autowired
     private UserRepository userRepository;
+
     public boolean isValidEmail(String email) {
         return !userRepository.existsByEmail(email);
     }
@@ -56,6 +58,11 @@ import java.util.stream.Collectors;
             return ResponseEntity.badRequest().body(errors);
         }
 
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encryptedPassword = encoder.encode(userDto.getPassword());
+
+        userDto.setPassword(encryptedPassword);
         userRepository.save(new User(userDto));
         return ResponseEntity.status(201).body("User saved successfully");
     }
